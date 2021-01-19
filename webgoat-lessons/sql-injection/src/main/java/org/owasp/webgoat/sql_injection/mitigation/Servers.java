@@ -68,9 +68,15 @@ public class Servers {
     @ResponseBody
     public List<Server> sort(@RequestParam String column) throws Exception {
         List<Server> servers = new ArrayList<>();
-
+        // fixing SQL injection num 4
+        String sqlSortQuery = "select id, hostname, ip, mac, status, description from servers  where status <> 'out of order' order by ?";
+        
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("select id, hostname, ip, mac, status, description from servers  where status <> 'out of order' order by " + column)) {
+             //fising SQL injection num 4
+             CallableStatement preparedStatement = conn.prepareCall(sqlSortQuery);
+             preparedStatement.setString(1, column);
+             
+             //PreparedStatement preparedStatement = connection.prepareStatement("select id, hostname, ip, mac, status, description from servers  where status <> 'out of order' order by " + column)) {
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 Server server = new Server(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6));
