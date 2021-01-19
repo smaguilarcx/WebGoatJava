@@ -72,7 +72,7 @@ public class Servers {
         String sqlSortQuery = "select id, hostname, ip, mac, status, description from servers  where status <> 'out of order' order by ?";
         
         try (Connection connection = dataSource.getConnection();
-             //fising SQL injection num 4
+             //fixing SQL injection num 4
              CallableStatement preparedStatement = conn.prepareCall(sqlSortQuery);
              preparedStatement.setString(1, column);
              
