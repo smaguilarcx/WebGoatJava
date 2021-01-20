@@ -141,3 +141,4 @@ docker push webgoat/webgoat-8.0
 
 Once installed connect to http://localhost:8080/WebGoat and http://localhost:9090/WebWolf
 
+test
